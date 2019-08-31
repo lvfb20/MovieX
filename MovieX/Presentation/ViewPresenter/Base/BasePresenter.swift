@@ -8,22 +8,17 @@
 
 import RxSwift
 import Moya
-//import Moya_ObjectMapper
+import Moya_ObjectMapper
 
 class BasePresenter {
-    
     internal weak var baseView: BaseView?
-    
     internal var disposeBag: DisposeBag = DisposeBag()
     
     init() {}
-    
     func viewDidLoad() { }
-    
     func attachView<T: BaseView>(view: T) {
         self.baseView = view
     }
-    
 }
 
 extension BasePresenter {
@@ -37,7 +32,6 @@ extension BasePresenter {
     }
     
     func handleApiError(baseResponse: BaseResponse?) {
-        
         if let dataMessage = baseResponse?.message {
             self.baseView?.showPrettyAlert(title: "error".locale(), message: dataMessage)
         } else {
@@ -56,16 +50,13 @@ extension BasePresenter {
     }
     
     private func handleMoyaError(_ moyaError: MoyaError) {
-        
         if let response = moyaError.response {
-            
             do {
                 let baseResponse = try response.mapObject(BaseResponse.self)
                 self.handleApiError(baseResponse: baseResponse)
             } catch {
                 self.handleGenericError()
             }
-            
         } else {
             self.handleGenericError()
         }
@@ -80,28 +71,4 @@ extension BasePresenter {
         }
         return nil
     }
-    
 }
-
-/**
- 
- // Esta es la manera mas generica de manejar un error
- self.handleError(error)
- 
- // Esta es una manera
- if let response = self.tryToGetErrorResponse(error: error) {
- print(response.message)
- }
- 
- // Esta es otra manera de obtener los errores y manejarlos
- if let errorKnown = error as? IteractorError {
- switch errorKnown {
- case .generalWith(let text):
- print(text)
- default: self.handleError(error)
- }
- } else {
- self.handleError(error)
- }
- 
- */

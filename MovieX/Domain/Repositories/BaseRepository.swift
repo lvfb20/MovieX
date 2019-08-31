@@ -15,7 +15,6 @@ enum RepositoryError: Swift.Error {
 }
 
 protocol BaseRepository {
-    func getSingleton() -> SingletonManager
     func getLocalManager() -> LocalManager
     func fillBaseRequest<P>(_ baseRequest: P) -> P where P: BaseRequest
 }

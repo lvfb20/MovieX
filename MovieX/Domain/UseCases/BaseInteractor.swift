@@ -16,18 +16,8 @@ enum InteractorError: Swift.Error {
     case noConecction
 }
 
-protocol BaseInteractorProtocol {
-    
+protocol BaseInteractorProtocol {    
 }
 
 class BaseInteractor: BaseInteractorProtocol {
-    
-    //private var baseUserRepo: UsersRepository
-    //private var baseGeneralRepo: GeneralRepository
-    
-    //init(user: UsersRepository, general: GeneralRepository) {
-    //    self.baseUserRepo = user
-    //    self.baseGeneralRepo = general
-    //}
-    
 }

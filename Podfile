@@ -6,6 +6,7 @@ target 'MovieX' do
   use_frameworks!
 
   # Pods for MovieX
+  pod 'Fabric'
   pod 'Moya/RxSwift', '~> 12.0'
   pod 'Moya-ObjectMapper/RxSwift', '2.8'
   
@@ -16,10 +17,13 @@ target 'MovieX' do
   pod 'SwinjectStoryboard', '2.2.0'
   
   pod 'SnapKit', '5.0.0'
+  pod 'Kingfisher'
 
   target 'MovieXTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'Quick'
+    pod 'Nimble'
   end
 
   target 'MovieXUITests' do

@@ -14,14 +14,10 @@ class SplashPresenter: BasePresenter {
         return baseView as? SplashView
     }
     
-    private var userIteractor: UserInteractorProtocol
-    
-    init(userIteractor: UserInteractorProtocol) {
-        self.userIteractor = userIteractor
-    }
-    
     override func viewDidLoad() {
+        // Aqui se puede pedir data importante y mientras mostrar un splash animado
+        // una vez se reciba la data, se direcciona
+        view?.goToMoviesList()
     }
     
 }
-

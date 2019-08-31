@@ -21,10 +21,6 @@ class DataModule {
             LocalManager()
         }
 
-        defaultContainer.register(SingletonManager.self) { _ in
-            SingletonManager.sharedInstance
-        }
-
         defaultContainer.register(NetworkManager.self) { _ in
 
             let env: NetworkEnvironment = .development
@@ -38,17 +34,15 @@ class DataModule {
             return NetworkManager(environment: env)
         }
 
-        defaultContainer.register(UserRepository.self) { r in
-            UserRepositoryImpl(networkManager: r.resolve(NetworkManager.self)!,
-                               localManager: r.resolve(LocalManager.self)!,
-                               singletonManager: r.resolve(SingletonManager.self)!)
+        defaultContainer.register(MoviesRepository.self) { r in
+            MoviesRepositoryImpl(networkManager: r.resolve(NetworkManager.self)!,
+                               localManager: r.resolve(LocalManager.self)!)
         }
-
     }
     
     func resolveInteractors(_ defaultContainer: Container) {
-        defaultContainer.register(UserInteractorProtocol.self) { r in
-            UserInteractor(userRepository: r.resolve(UserRepository.self)!)
+        defaultContainer.register(MoviesInteractorProtocol.self) { r in
+            MoviesInteractor(moviesRepository: r.resolve(MoviesRepository.self)!)
         }
     }
 }

@@ -16,8 +16,8 @@ class HelperBaseViewController: UIViewController, BaseView {
     // -------------------------------------
     
     var wireframe: Wireframe!
-    
-    var singleFingerTap: UITapGestureRecognizer?
+    private var navLeftAction: (() -> Void)?
+    private var navRightAction: (() -> Void)?
     
     // -------------------------------------
     // MARK: Section - UIViewController
@@ -25,90 +25,17 @@ class HelperBaseViewController: UIViewController, BaseView {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addTapGestureNotification()
-        stopGestureRecognizerFromBaseView()
+        self.setDefaultNavBarStyles()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        addBaseKeyboardWillShowNotification()
-        addBaseKeyboardWillHideNotification()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        removeBaseNotification()
     }
-    
-    // -------------------------------------
-    // MARK: Section - Public methods
-    // -------------------------------------
-    
-    func stopGestureRecognizerFromBaseView() {
-        self.singleFingerTap?.cancelsTouchesInView = false
-    }
-    
-    func restartGestureRecognizerFromBaseView() {
-        self.singleFingerTap?.cancelsTouchesInView = true
-    }
-    
-    // Estos metodos son mas que todo para que se extiendan
-    internal func baseViewTapGesture(_ recognizer: UITapGestureRecognizer) {
-        self.view.endEditing(true)
-        NSLog("View tap in base")
-    }
-    
-    internal func baseViewKeyboardWillShow(notification: Notification, userInfo: [AnyHashable: Any], keyboardRect: CGRect) {
-        NSLog("Keyboard show in base")
-    }
-    
-    internal func baseViewKeyboardWillHide(notification: Notification, userInfo: [AnyHashable: Any], keyboardRect: CGRect) {
-        NSLog("Keyboard hide in base")
-    }
-    
-    // -------------------------------------
-    // MARK: Section - Private Methods
-    // -------------------------------------
-    
-    private func addTapGestureNotification() {
-        let selector         = #selector(HelperBaseViewController.handleBaseSingleTapNotification(_:))
-        self.singleFingerTap = UITapGestureRecognizer(target: self, action: selector)
-        self.view.addGestureRecognizer(self.singleFingerTap!)
-    }
-    
-    private func addBaseKeyboardWillShowNotification() {
-        let sel = #selector(handleBaseKeyboardWillShowNotification(_:))
-        NotificationCenter.default
-            .addObserver(self, selector: sel, name: UIResponder.keyboardWillShowNotification, object: nil)
-    }
-    
-    private func addBaseKeyboardWillHideNotification() {
-        let sel = #selector(handleBaseKeyboardWillHideNotification(_:))
-        NotificationCenter.default
-            .addObserver(self, selector: sel, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    private func removeBaseNotification() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func handleBaseSingleTapNotification(_ taprecognizer: UITapGestureRecognizer) {
-        baseViewTapGesture(taprecognizer)
-    }
-    
-    @objc func handleBaseKeyboardWillShowNotification(_ notifcation: Notification) {
-        let userInfo: Dictionary = notifcation.userInfo!
-        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
-        baseViewKeyboardWillShow(notification: notifcation, userInfo: userInfo, keyboardRect: keyboardFrame!)
-    }
-    
-    @objc func handleBaseKeyboardWillHideNotification(_ notifcation: Notification) {
-        let userInfo: Dictionary = notifcation.userInfo!
-        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
-        baseViewKeyboardWillHide(notification: notifcation, userInfo: userInfo, keyboardRect: keyboardFrame!)
-    }
-    
+
     // -------------------------------------
     // MARK: Section - BaseView Protocol
     // -------------------------------------
@@ -147,6 +74,74 @@ class HelperBaseViewController: UIViewController, BaseView {
                              completionOk: completionOk,
                              completionCancel: completionCancel)
         self.present(popup, animated: true, completion: nil)
+    }
+}
+
+extension HelperBaseViewController {
+    
+    func setDefaultNavBarStyles() {
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        self.navigationController?.navigationBar.shadowImage = nil
+        self.navigationController?.navigationBar.isTranslucent = false
+        
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black,
+                              NSAttributedString.Key.font: UIFont.init(name: "GillSans", size: 18)]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+    }
+    
+    func transparentNavStyles() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    func setNavButton(text: String?, image: UIImage?, left: Bool) {
+        let myButton = UIButton.init(type: .custom)
+        
+        if left {
+            myButton.addTarget(self, action: #selector(self.leftButtonClicked(sender:)), for: .touchUpInside)
+        } else {
+            myButton.addTarget(self, action: #selector(self.rightButtonClicked(sender:)), for: .touchUpInside)
+        }
+        
+        if let text = text {
+            myButton.setTitleColor(UIColor.lightGray, for: .normal)
+            myButton.setTitle(text, for: .normal)
+        } else if let image = image {
+            myButton.setImage(image, for: .normal)
+            myButton.sizeToFit()
+            myButton.frame.size.width *= 3
+            myButton.frame.size.height *= 1.5
+        }
+        
+        myButton.contentHorizontalAlignment = left ? .left : .right
+        myButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: 0 )
+        
+        if left {
+            self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: myButton)
+        } else {
+            self.navigationItem.rightBarButtonItem  = UIBarButtonItem(customView: myButton)
+        }
+        
+    }
+    
+    func changeNavLeftButton(image: UIImage?) {
+        setNavButton(text: nil, image: image, left: true)
+    }
+    
+    @objc func leftButtonClicked(sender: UIBarButtonItem) {
+        if let block = navLeftAction {
+            block()
+        } else {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+    }
+    
+    @objc func rightButtonClicked(sender: UIBarButtonItem) {
+        if let block = navRightAction {
+            block()
+        }
     }
 }
 

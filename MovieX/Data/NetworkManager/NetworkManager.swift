@@ -31,7 +31,6 @@ class NetworkManager {
         case .mock:
             provider = MoyaProvider<MultiTarget>(stubClosure: MoyaProvider.immediatelyStub,
                                                  plugins: plugins)
-            
         case .development,
              .production:
             provider = MoyaProvider<MultiTarget>(plugins: plugins)
@@ -42,18 +41,25 @@ class NetworkManager {
         return NetworkManager.selectedEnvironment
     }
     
-    static func getBaseUrlForAsApi() -> String {
+    static func getBaseUrl() -> String {
         switch NetworkManager.getApiEnvironment() {
-        case .production: return "http://localhost"
-        case .development: return "http://localhost"
-        default: return "http://localhost"
+        case .production: return "https://api.themoviedb.org"
+        case .development: return "https://api.themoviedb.org"
+        default: return "https://api.themoviedb.org"
+        }
+    }
+    
+    static func getApiKeyMovieDB() -> String {
+        switch NetworkManager.getApiEnvironment() {
+        case .production: return "7d5e7b4c508fdb3424b5b8326ae875df"
+        case .development: return "7d5e7b4c508fdb3424b5b8326ae875df"
+        default: return "7d5e7b4c508fdb3424b5b8326ae875df"
         }
     }
     
     func makeRequest(_ target: TargetType) -> Single<Response> {
         return self.provider.rx.request(MultiTarget(target))
     }
-    
 }
 
 // MARK: - Multitarget + AccessToken
@@ -84,7 +90,6 @@ class RestClientHelper {
         do {
             let dataAsJSON = try JSONSerialization.jsonObject(with: data)
             let prettyData =  try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
-            
             return prettyData
         } catch {
             return data // fallback to original data if it can't be serialized.
@@ -111,4 +116,3 @@ class RestClientHelper {
         return multiparts
     }
 }
-

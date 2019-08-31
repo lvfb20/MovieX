@@ -12,17 +12,12 @@ class BaseRepositoryImpl: BaseRepository {
     
     let networkManager: NetworkManager
     private let localManager: LocalManager
-    private let singletonManager: SingletonManager
-    
-    init(networkManager: NetworkManager, localManager: LocalManager, singletonManager: SingletonManager) {
+ 
+    init(networkManager: NetworkManager, localManager: LocalManager) {
         self.networkManager = networkManager
         self.localManager = localManager
-        self.singletonManager = singletonManager
     }
     
-    func getSingleton() -> SingletonManager {
-        return singletonManager
-    }
     
     func getLocalManager() -> LocalManager {
         return localManager
@@ -34,9 +29,6 @@ class BaseRepositoryImpl: BaseRepository {
         baseRequest.deviceVersion = UIDevice.current.systemVersion
         baseRequest.deviceId = UIDevice.current.identifierForVendor?.uuidString ?? ""
         
-        if let user = localManager.getUser() {
-            baseRequest.loginToken = user.loginToken
-        }
         return baseRequest
     }
     

@@ -8,8 +8,6 @@
 
 import Swinject
 
-// swiftlint:disable identifier_name function_body_length
-
 class ViewModule {
     
     func setup(_ defaultContainer: Container) {
@@ -18,7 +16,6 @@ class ViewModule {
     }
     
     func resolvePresenters(_ defaultContainer: Container) {
-        
         defaultContainer.register(Wireframe.self) { _ in
             Wireframe()
         }
@@ -27,43 +24,39 @@ class ViewModule {
             BasePresenter()
         }
 
-        defaultContainer.register(SplashPresenter.self) { r in
-            SplashPresenter(userIteractor: r.resolve(UserInteractorProtocol.self)!)
+        defaultContainer.register(SplashPresenter.self) { _ in
+            SplashPresenter()
         }
-
-        defaultContainer.register(LoginPresenter.self) { r in
-            LoginPresenter(userIteractor: r.resolve(UserInteractorProtocol.self)!)
+        
+        defaultContainer.register(MoviesListPresenter.self) { r in
+            MoviesListPresenter(moviesInteractor: r.resolve(MoviesInteractorProtocol.self)!)
+        }
+        
+        defaultContainer.register(MovieDetailPresenter.self) { (_, movie: Movie) in
+            MovieDetailPresenter(movie: movie)
         }
     }
     
     func resolveViewControllers(_ defaultContainer: Container) {
-        
-        // To make your life easier -> Use this while registering a VC
-        func register<P>(vc: BaseViewController<P>.Type) {
-            defaultContainer.storyboardInitCompleted(vc) { r, c in
-                c.presenter = r.resolve(vc.Presenter.self)!
-                c.wireframe = r.resolve(Wireframe.self)!
-            }
-        }
-
-        // Si el viewcontroller esta en el storyboard, se puede usar este metodo. Si no entonces se hace manual
-        //register(vc: ProductListViewController.self)
-
         defaultContainer.register(SplashViewController.self) { r in
             let view = SplashViewController()
             view.presenter = r.resolve(SplashPresenter.self)!
             view.wireframe = r.resolve(Wireframe.self)!
             return view
         }
-
-        defaultContainer.register(LoginViewController.self) { r in
-            let view = LoginViewController()
-            view.presenter = r.resolve(LoginPresenter.self)!
+        
+        defaultContainer.register(MoviesListViewController.self) { r in
+            let view = MoviesListViewController()
+            view.presenter = r.resolve(MoviesListPresenter.self)!
             view.wireframe = r.resolve(Wireframe.self)!
             return view
         }
         
+        defaultContainer.register(MovieDetailViewController.self) { (r: Resolver, movie: Movie) in
+            let view = MovieDetailViewController()
+            view.presenter = r.resolve(MovieDetailPresenter.self, argument: movie)!
+            view.wireframe = r.resolve(Wireframe.self)!
+           return view
+        }
     }
-    
 }
-
