@@ -7,16 +7,15 @@ target 'MovieX' do
 
   # Pods for MovieX
   pod 'Fabric'
-  pod 'Moya/RxSwift', '~> 12.0'
-  pod 'Moya-ObjectMapper/RxSwift', '2.8'
+  pod 'Moya/RxSwift', '~> 14.0'
   
-  pod 'SwiftLint', '0.32.0'
-  pod 'PKHUD', '5.2.1'
+  pod 'SwiftLint', '~> 0.39'
+  pod 'PKHUD', '~> 5.3'
   
   pod 'Swinject', '2.6.0'
   pod 'SwinjectStoryboard', '2.2.0'
   
-  pod 'SnapKit', '5.0.0'
+  pod 'SnapKit', '~> 5.0'
   pod 'Kingfisher'
 
   target 'MovieXTests' do

@@ -20,7 +20,7 @@ DerivedData
 
 *.ipa
 *.app.dSYM.zip
-
+vendor/
 # CocoaPods
 Pods/
 #Se quita podfile del gitignore por buddybuild
