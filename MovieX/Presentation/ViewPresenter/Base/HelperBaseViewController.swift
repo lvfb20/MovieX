@@ -199,7 +199,7 @@ extension HelperBaseViewController {
     }
     
     func setBackButton() {
-        setNavButton(left: true, image: UIImage(named: "back"))
+        setNavButton(left: true, image: Style.Image.named(.back))
     }
     
     @objc func leftButtonClicked(sender: UIBarButtonItem) {

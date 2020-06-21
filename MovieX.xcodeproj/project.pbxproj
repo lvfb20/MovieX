@@ -37,6 +37,7 @@
 		195E1874249F949300DD7FE4 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195E1873249F949300DD7FE4 /* UITableView+Extensions.swift */; };
 		195E187C249FCAEE00DD7FE4 /* BaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195E187B249FCAEE00DD7FE4 /* BaseInteractor.swift */; };
 		195E187E249FCB2800DD7FE4 /* MoviesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195E187D249FCB2800DD7FE4 /* MoviesInteractor.swift */; };
+		195E1880249FDA3900DD7FE4 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195E187F249FDA3900DD7FE4 /* Style.swift */; };
 		197106D2231A8F9A00448F77 /* MoviesDataDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197106D1231A8F9A00448F77 /* MoviesDataDummy.swift */; };
 		197106D6231A92FB00448F77 /* MoviesListViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197106D5231A92FB00448F77 /* MoviesListViewControllerSpec.swift */; };
 		197106D8231AB3D300448F77 /* MoviesListPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197106D7231AB3D300448F77 /* MoviesListPresenterSpec.swift */; };
@@ -148,6 +149,7 @@
 		195E1873249F949300DD7FE4 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		195E187B249FCAEE00DD7FE4 /* BaseInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInteractor.swift; sourceTree = "<group>"; };
 		195E187D249FCB2800DD7FE4 /* MoviesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesInteractor.swift; sourceTree = "<group>"; };
+		195E187F249FDA3900DD7FE4 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		197106D1231A8F9A00448F77 /* MoviesDataDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesDataDummy.swift; sourceTree = "<group>"; };
 		197106D5231A92FB00448F77 /* MoviesListViewControllerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListViewControllerSpec.swift; sourceTree = "<group>"; };
 		197106D7231AB3D300448F77 /* MoviesListPresenterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListPresenterSpec.swift; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 		195E1878249FCA3700DD7FE4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				195E187F249FDA3900DD7FE4 /* Style.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1190,6 +1193,7 @@
 				19E8222D249E7D6D009417CD /* MovieXError.swift in Sources */,
 				1953C31D22E1329800B3ADF2 /* BaseInteractorImpl.swift in Sources */,
 				1953C36822E1360400B3ADF2 /* MoviesRepository.swift in Sources */,
+				195E1880249FDA3900DD7FE4 /* Style.swift in Sources */,
 				19BE09AD22E130CE00E88B33 /* AppDelegate.swift in Sources */,
 				1953C35A22E1337A00B3ADF2 /* SplashPresenter.swift in Sources */,
 				19E8222B249E7CE6009417CD /* PrimitiveSequence+ErrorHandling.swift in Sources */,
@@ -1342,7 +1346,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1397,7 +1401,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1415,7 +1419,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 58NKCGB7TD;
 				INFOPLIST_FILE = MovieX/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1435,7 +1439,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 58NKCGB7TD;
 				INFOPLIST_FILE = MovieX/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
