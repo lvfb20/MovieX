@@ -9,7 +9,6 @@
 import Swinject
 
 class ViewModule {
-    
     func setup(_ defaultContainer: Container) {
         self.resolvePresenters(defaultContainer)
         self.resolveViewControllers(defaultContainer)
@@ -17,23 +16,21 @@ class ViewModule {
     
     func resolvePresenters(_ defaultContainer: Container) {
         defaultContainer.register(Wireframe.self) { _ in
-            Wireframe()
+            WireframeImpl()
         }
 
-        defaultContainer.register(BasePresenter.self) { _ in
-            BasePresenter()
+        defaultContainer.register(BasePresenter.self) { r in
+            BasePresenter(wireframe: r.resolve(Wireframe.self)!)
         }
 
-        defaultContainer.register(SplashPresenter.self) { _ in
-            SplashPresenter()
+        defaultContainer.register(SplashPresenter.self) { r in
+            SplashPresenter(wireframe: r.resolve(Wireframe.self)!)
         }
-        
         defaultContainer.register(MoviesListPresenter.self) { r in
-            MoviesListPresenter(moviesInteractor: r.resolve(MoviesInteractorProtocol.self)!)
+            MoviesListPresenter(wireframe: r.resolve(Wireframe.self)!, moviesInteractor: r.resolve(MoviesInteractorProtocol.self)!)
         }
-        
-        defaultContainer.register(MovieDetailPresenter.self) { (_, movie: Movie) in
-            MovieDetailPresenter(movie: movie)
+        defaultContainer.register(MovieDetailPresenter.self) { (r, movie: Movie) in
+            MovieDetailPresenter(wireframe: r.resolve(Wireframe.self)!, movie: movie)
         }
     }
     
@@ -41,22 +38,17 @@ class ViewModule {
         defaultContainer.register(SplashViewController.self) { r in
             let view = SplashViewController()
             view.presenter = r.resolve(SplashPresenter.self)!
-            view.wireframe = r.resolve(Wireframe.self)!
             return view
         }
-        
         defaultContainer.register(MoviesListViewController.self) { r in
             let view = MoviesListViewController()
             view.presenter = r.resolve(MoviesListPresenter.self)!
-            view.wireframe = r.resolve(Wireframe.self)!
             return view
         }
-        
         defaultContainer.register(MovieDetailViewController.self) { (r: Resolver, movie: Movie) in
             let view = MovieDetailViewController()
             view.presenter = r.resolve(MovieDetailPresenter.self, argument: movie)!
-            view.wireframe = r.resolve(Wireframe.self)!
-           return view
+            return view
         }
     }
 }

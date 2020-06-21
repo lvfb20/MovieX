@@ -10,17 +10,7 @@ import Foundation
 import UIKit
 
 extension String {
-
-    func locale() -> String {
+    var localized: String {
         return NSLocalizedString(self, comment: "")
     }
-    
-    func locale(withComment comment: String) -> String {
-        return NSLocalizedString(self, comment: comment)
-    }
-    
-    func locale(inTableName tableName: String, withComment comment: String) -> String {
-        return NSLocalizedString(self, tableName: tableName, bundle: Bundle.main, value: "", comment: comment)
-    }
-    
 }

@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import ObjectMapper
 
-class MovieEntity: Mappable {
+class MovieEntity: Codable {
     
     var id: Int?
     var title: String?
@@ -19,16 +18,14 @@ class MovieEntity: Mappable {
     var posterPath: String?
     var backDropPath: String?
     
-    required init?(map: Map) {}
-    
-    func mapping(map: Map) {
-        id <- map["id"]
-        title <- map["title"]
-        originalTitle <- map["original_title"]
-        overview <- map["overview"]
-        releaseDate <- map["release_date"]
-        posterPath <- map["poster_path"]
-        backDropPath <- map["backdrop_path"]
-    }
+   enum CodingKeys: String, CodingKey {
+       case originalTitle = "original_title"
+       case releaseDate = "release_date"
+       case posterPath = "poster_path"
+       case backDropPath = "backdrop_path"
+       case id
+       case title
+       case overview
+   }
 }
 

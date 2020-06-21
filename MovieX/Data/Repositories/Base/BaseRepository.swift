@@ -8,12 +8,6 @@
 
 import Foundation
 
-enum RepositoryError: Swift.Error {
-    case general
-    case parsing
-    case unauthorized
-}
-
 protocol BaseRepository {
     func getLocalManager() -> LocalManager
     func fillBaseRequest<P>(_ baseRequest: P) -> P where P: BaseRequest

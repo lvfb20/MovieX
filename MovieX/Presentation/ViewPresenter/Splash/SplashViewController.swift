@@ -24,6 +24,6 @@ class SplashViewController: BaseViewController<SplashPresenter> {
 extension SplashViewController: SplashView {
     
     func goToMoviesList() {
-        wireframe.presentMoviesList()
+        presenter.wireframe.moviesList()
     }
 }

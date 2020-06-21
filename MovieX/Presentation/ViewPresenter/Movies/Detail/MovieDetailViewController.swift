@@ -34,13 +34,11 @@ class MovieDetailViewController: BaseViewController<MovieDetailPresenter> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.transparentNavStyles()
-        changeNavLeftButton(image: UIImage(named: "back"))
+        setBackButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.setDefaultNavBarStyles()
     }
 }
 

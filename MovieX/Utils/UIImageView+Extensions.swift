@@ -15,7 +15,6 @@ extension UIImageView {
         let url = URL(string: urlString)
         self.kf.setImage(with: url)
     }
-    
     func addShadow() {
         self.layer.shadowColor = UIColor.red.cgColor
         self.layer.shadowOffset = CGSize(width: 0, height: 8)
@@ -23,4 +22,3 @@ extension UIImageView {
         self.layer.shadowRadius = 4.0
     }
 }
-

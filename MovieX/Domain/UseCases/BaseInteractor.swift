@@ -7,14 +7,6 @@
 //
 
 import Foundation
-import SwinjectStoryboard
-
-enum InteractorError: Swift.Error {
-    case general
-    case generalWith(text: String)
-    case noSession
-    case noConecction
-}
 
 protocol BaseInteractorProtocol {    
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 class MoviesListPresenter: BasePresenter {
     
@@ -16,19 +17,21 @@ class MoviesListPresenter: BasePresenter {
     
     private var moviesInteractor: MoviesInteractorProtocol
 
-    init(moviesInteractor: MoviesInteractorProtocol) {
+    init(wireframe: Wireframe,
+         moviesInteractor: MoviesInteractorProtocol) {
         self.moviesInteractor = moviesInteractor
+        super.init(wireframe: wireframe)
     }
     
     override func viewDidLoad() {
-        view?.showLoading()
+        super.viewDidLoad()
         moviesInteractor.getPopularMovies()
-            .subscribe(onSuccess: { (movies) in
-                self.view?.hideLoading()
-                self.view?.showMovies(movies)
-            }, onError: {(error) in
-                self.view?.hideLoading()
-                self.handleError(error)
-            }).disposed(by: disposeBag)
+        .loading(view: view)
+        .handleError(presenter: self)
+        .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+        .observeOn(MainScheduler.asyncInstance)
+        .subscribe(onSuccess: { (movies) in
+            self.view?.showMovies(movies)
+        }).disposed(by: disposeBag)
     }
 }

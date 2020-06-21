@@ -15,30 +15,145 @@ class HelperBaseViewController: UIViewController, BaseView {
     // MARK: Section - Vars
     // -------------------------------------
     
-    var wireframe: Wireframe!
+    internal var tapGestureRecognizer: UITapGestureRecognizer!
+    
+    internal var needNavigationBar = false
+
     private var navLeftAction: (() -> Void)?
     private var navRightAction: (() -> Void)?
-    
+
     // -------------------------------------
     // MARK: Section - UIViewController
     // -------------------------------------
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setDefaultNavBarStyles()
+        setupView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        addKeyboardNotifications()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        removeKeyboardNotifications()
     }
-
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
+    // -------------------------------------
+    // MARK: Section - Public methods
+    // -------------------------------------
+    
+    internal func setupView() {
+        // Since there is no xib o storyboards, a basic background color is needed to avoid clear.
+        view.backgroundColor = .white
+        addTapGestureNotification()
+    }
+    
+    func stopGestureRecognizerFromBaseView() {
+        self.tapGestureRecognizer?.cancelsTouchesInView = false
+    }
+    
+    func restartGestureRecognizerFromBaseView() {
+        self.tapGestureRecognizer?.cancelsTouchesInView = true
+    }
+    
+    // -------------------------------------
+    // MARK: Section - Private Methods
+    // -------------------------------------
+    
+    private func addTapGestureNotification() {
+        tapGestureRecognizer = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tapGestureRecognizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self,
+                         selector: #selector(handleBaseKeyboardWillShowNotification(_:)),
+                         name: UIResponder.keyboardWillShowNotification,
+                         object: nil)
+        NotificationCenter.default.addObserver(self,
+                         selector: #selector(handleBaseKeyboardWillHideNotification(_:)),
+                         name: UIResponder.keyboardWillHideNotification,
+                         object: nil)
+    }
+    
+    private func removeKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
+    }
+    
+    // -------------------------------------
+    // MARK: Keyboard Handlers
+    // -------------------------------------
+    
+    @objc private  func handleBaseKeyboardWillShowNotification(_ notification: Notification) {
+        let userInfo: Dictionary = notification.userInfo!
+        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+        keyboardWillShow(notification: notification, userInfo: userInfo, keyboardRect: keyboardFrame!)
+    }
+    
+    internal func keyboardWillShow(notification: Notification, userInfo: [AnyHashable: Any], keyboardRect: CGRect) {
+        NSLog("Keyboard show in base")
+    }
+    
+    @objc private func handleBaseKeyboardWillHideNotification(_ notification: Notification) {
+        let userInfo: Dictionary = notification.userInfo!
+        let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+        keyboardWillHide(notification: notification, userInfo: userInfo, keyboardRect: keyboardFrame!)
+    }
+    
+    internal func keyboardWillHide(notification: Notification, userInfo: [AnyHashable: Any], keyboardRect: CGRect) {
+        NSLog("Keyboard hide in base")
+    }
+    
     // -------------------------------------
     // MARK: Section - BaseView Protocol
     // -------------------------------------
+    
+    func showNativeAlert(title: String, message: String? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Generic.Ok".localized.capitalized, style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func showError<E>(_ error: E) where E: Swift.Error {
+        let title = "Error.Title".localized
+        switch error as? MovieXError {
+        case .general, .noSession, .noConnection, .unauthorized,
+             .serverException, .notFound, .unknown, .parsing:
+            showNativeAlert(title: title, message: error.localizedDescription)
+        case .api:
+            // TODO: Don't show the api errors to users because are not correctly formated
+            #if DEBUG
+                showNativeAlert(title: title, message: error.localizedDescription)
+            #else
+                showNativeAlert(title: title, message: "Error.Message".localized)
+                print(error.localizedDescription)
+            #endif
+        case .doNothing: break
+        default:
+            showNativeAlert(title: title, message: "Error.Message".localized)
+            print(error.localizedDescription)
+        }
+    }
+    
+    // MARK: Loadable
     
     func showLoading() {
         HUD.show(.progress)
@@ -48,61 +163,15 @@ class HelperBaseViewController: UIViewController, BaseView {
         HUD.hide()
     }
     
-    func showNativeAlert(title: String, message: String? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        //alert.addAction(UIAlertAction(title: "base_view_ok".locale(), style: UIAlertAction.Style.default, handler: nil))
-        alert.addAction(UIAlertAction(title: "base_view_ok", style: UIAlertAction.Style.default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func showPrettyAlert(title: String, message: String) {
-        showGenericMessagePopup(title: title, message: message)
-    }
-    
-    func showGenericMessagePopup(title: String,
-                                 message: String,
-                                 buttonOk: String? = nil,
-                                 buttonCancel: String? = nil,
-                                 completionOk: (() -> Swift.Void)? = nil,
-                                 completionCancel: (() -> Swift.Void)? = nil) {
-        let popup = CustomAlertViewController()
-        popup.modalPresentationStyle = .overFullScreen
-        popup.setInformation(title: title,
-                             message: message,
-                             buttonOk: buttonOk,
-                             buttonCancel: buttonCancel,
-                             completionOk: completionOk,
-                             completionCancel: completionCancel)
-        self.present(popup, animated: true, completion: nil)
+    func showSuccess(completion: ((Bool) -> Void)? = nil) {
+        HUD.flash(.success, delay: 0.7, completion: completion)
     }
 }
 
 extension HelperBaseViewController {
     
-    func setDefaultNavBarStyles() {
-        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        self.navigationController?.navigationBar.shadowImage = nil
-        self.navigationController?.navigationBar.isTranslucent = false
-        
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black,
-                              NSAttributedString.Key.font: UIFont.init(name: "GillSans", size: 18)]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
-    }
-    
-    func transparentNavStyles() {
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-    }
-    
-    func setNavButton(text: String?, image: UIImage?, left: Bool) {
+    func setNavButton(left: Bool, text: String? = nil, image: UIImage? = nil, action: (() -> Void)? = nil ) {
         let myButton = UIButton.init(type: .custom)
-        
-        if left {
-            myButton.addTarget(self, action: #selector(self.leftButtonClicked(sender:)), for: .touchUpInside)
-        } else {
-            myButton.addTarget(self, action: #selector(self.rightButtonClicked(sender:)), for: .touchUpInside)
-        }
         
         if let text = text {
             myButton.setTitleColor(UIColor.lightGray, for: .normal)
@@ -118,15 +187,19 @@ extension HelperBaseViewController {
         myButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: 0 )
         
         if left {
+            navLeftAction = action
+            myButton.addTarget(self, action: #selector(self.leftButtonClicked(sender:)), for: .touchUpInside)
             self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: myButton)
         } else {
+            navRightAction = action
+            myButton.addTarget(self, action: #selector(self.rightButtonClicked(sender:)), for: .touchUpInside)
             self.navigationItem.rightBarButtonItem  = UIBarButtonItem(customView: myButton)
         }
         
     }
     
-    func changeNavLeftButton(image: UIImage?) {
-        setNavButton(text: nil, image: image, left: true)
+    func setBackButton() {
+        setNavButton(left: true, image: UIImage(named: "back"))
     }
     
     @objc func leftButtonClicked(sender: UIBarButtonItem) {

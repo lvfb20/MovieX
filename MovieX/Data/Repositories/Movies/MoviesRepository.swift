@@ -13,4 +13,3 @@ import Moya
 protocol MoviesRepository: BaseRepository {
     func getPopularMovies() -> Single<[Movie]>
 }
-

@@ -9,13 +9,11 @@
 import Foundation
 
 extension DateFormatter {
-    
     @nonobjc static let yearMonthAndDay: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY-MM-dd"
         return formatter
     }()
-    
     @nonobjc static let pretty: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, yyyy"

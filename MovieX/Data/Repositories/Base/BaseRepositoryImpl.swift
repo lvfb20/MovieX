@@ -12,17 +12,31 @@ class BaseRepositoryImpl: BaseRepository {
     
     let networkManager: NetworkManager
     private let localManager: LocalManager
- 
-    init(networkManager: NetworkManager, localManager: LocalManager) {
+    private let singletonManager: SingletonManager
+    
+    init(networkManager: NetworkManager,
+         localManager: LocalManager,
+         singletonManager: SingletonManager) {
         self.networkManager = networkManager
         self.localManager = localManager
+        self.singletonManager = singletonManager
     }
     
+    func getSingleton() -> SingletonManager {
+        return singletonManager
+    }
     
     func getLocalManager() -> LocalManager {
         return localManager
     }
     
+//    func fillBaseRequest<P>(_ baseRequest: P) -> P where P: BaseRequest {
+//        guard let token = self.getLocalManager().getAuthToken() else { return baseRequest }
+//        baseRequest.authToken = token
+//        return baseRequest
+//    }
+//
+    /// Values that must have include en every request
     func fillBaseRequest<P>(_ baseRequest: P) -> P where P: BaseRequest {
         baseRequest.deviceModel = UIDevice.current.model
         baseRequest.deviceOS = UIDevice.current.systemName

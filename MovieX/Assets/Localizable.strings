@@ -6,4 +6,15 @@
   Copyright © 2019 legnafilloy. All rights reserved.
 */
 
-"Movies.Navigation.title" = "Movies";
+// MARK: - Error
+Error.Api = "MovieX API: An error ocurred with message: %@";
+Error.Title = "Error";
+Error.Message = "Plesse, try again later.";
+Error.Description = "An error ocurred with message: %@";
+Error.NoConnection.Message = "Check your connection and try again.";
+
+
+// MARK: - Movies
+Movies.Navigation.title = "Movies";
+
+

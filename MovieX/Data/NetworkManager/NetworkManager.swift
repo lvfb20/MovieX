@@ -24,17 +24,9 @@ class NetworkManager {
     init (environment: NetworkEnvironment) {
         
         NetworkManager.selectedEnvironment = environment
-        
-        let plugins = RestClientHelper.getProviderPugins()
-        
-        switch environment {
-        case .mock:
-            provider = MoyaProvider<MultiTarget>(stubClosure: MoyaProvider.immediatelyStub,
-                                                 plugins: plugins)
-        case .development,
-             .production:
-            provider = MoyaProvider<MultiTarget>(plugins: plugins)
-        }
+        provider = MoyaProvider<MultiTarget>(stubClosure: environment == .mock ? MoyaProvider.immediatelyStub : MoyaProvider.neverStub,
+                                             callbackQueue: DispatchQueue.main,
+                                             plugins: [RestClientHelper.getLoggerPlugin()])
     }
     
     static func getApiEnvironment() -> NetworkEnvironment {
@@ -62,57 +54,32 @@ class NetworkManager {
     }
 }
 
-// MARK: - Multitarget + AccessToken
-
-extension MultiTarget: AccessTokenAuthorizable {
-    public var authorizationType: AuthorizationType {
-        if let targetAuth = target as? AccessTokenAuthorizable {
-            return targetAuth.authorizationType
-        }
-        return .none
-    }
-}
-
 // MARK: - Rest Client Helper
 
 class RestClientHelper {
     
-    static func getProviderPugins() -> [PluginType] {
-        return [getLoggerPlugin()]
+     static func getLoggerPlugin() -> PluginType {
+        return NetworkLoggerPlugin(configuration: .init(formatter: .init(requestData: jsonPrettyDataFormatter,
+                                                                         responseData: jsonPrettyDataFormatter),
+                                                        logOptions: [.formatRequestAscURL,
+                                                                     .successResponseBody,
+                                                                     .errorResponseBody]))
     }
     
-    static func getLoggerPlugin() -> PluginType {
-        // Slim plugin es mejor, hay que poner la lib
-        return NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)
+    // Not in use for now.
+    static func getAccessTokenPlugin(with accessToken: String) -> PluginType {
+        return AccessTokenPlugin { (_) -> String in
+            return accessToken
+        }
     }
     
-    static func JSONResponseDataFormatter(_ data: Data) -> Data {
+    static private func jsonPrettyDataFormatter(_ data: Data) -> String {
         do {
             let dataAsJSON = try JSONSerialization.jsonObject(with: data)
-            let prettyData =  try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
-            return prettyData
+            let prettyData = try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
+            return String(data: prettyData, encoding: .utf8) ?? String(data: data, encoding: .utf8) ?? ""
         } catch {
-            return data // fallback to original data if it can't be serialized.
+            return String(data: data, encoding: .utf8) ?? ""
         }
-    }
-    
-    // MARK: Params
-    
-    static func getParams(initials: [String: Any]? = nil) -> [String: Any] {
-        var params: [String: Any] = [:]
-        if initials != nil {
-            initials!.forEach { (key, value) in params[key] = value }
-        }
-        return params
-    }
-    
-    static func getMultipartBodyFrom(parameters: [String: Any]) -> [MultipartFormData] {
-        var multiparts: [MultipartFormData] = []
-        parameters.forEach { (key, value) in
-            let multipart = MultipartFormData(provider: .data(String(describing: value).data(using: .utf8)!), name: key)
-            multiparts.append(multipart)
-        }
-        
-        return multiparts
     }
 }

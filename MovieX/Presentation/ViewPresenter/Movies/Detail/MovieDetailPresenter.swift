@@ -16,8 +16,9 @@ class MovieDetailPresenter: BasePresenter {
     
     private let movie: Movie
     
-    init(movie: Movie) {
+    init(wireframe: Wireframe, movie: Movie) {
         self.movie = movie
+        super.init(wireframe: wireframe)
     }
     
     override func viewDidLoad() {

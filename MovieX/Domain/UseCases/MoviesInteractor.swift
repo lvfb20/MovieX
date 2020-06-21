@@ -24,6 +24,4 @@ class MoviesInteractor: BaseInteractor, MoviesInteractorProtocol {
     func getPopularMovies() -> Single<[Movie]> {
         return moviesRepository.getPopularMovies()
     }
-    
 }
-

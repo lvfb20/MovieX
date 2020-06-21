@@ -25,8 +25,7 @@ class MoviesListViewController: BaseViewController<MoviesListPresenter> {
     // -------------------------------------
     
     fileprivate var movies: [Movie] = []
-    fileprivate let cellIdentfier = "MovieTableViewCell"
-    
+
     // -------------------------------------
     // MARK: Section - UIViewController
     // -------------------------------------
@@ -38,21 +37,21 @@ class MoviesListViewController: BaseViewController<MoviesListPresenter> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        setupTableView()
     }
     
     // -------------------------------------
     // MARK: Section - Private functions
     // -------------------------------------
+
     
-    private func setupView() {
-         self.navigationItem.title = "Movies.Navigation.title".locale()
+    private func setupTableView() {
+        self.navigationItem.title = "Movies.Navigation.title".localized
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        let cellNib = UINib(nibName: cellIdentfier, bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: cellIdentfier)
-    }
+        tableView.registerCell(cell: MovieTableViewCell.self)
+   }
 }
 
 extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -61,7 +60,7 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentfier) as? MovieTableViewCell else {
+        guard let cell = tableView.dequeueReusableBy(cell: MovieTableViewCell.self) else {
             return UITableViewCell()
         }
         let movie = movies[indexPath.row]
@@ -70,11 +69,12 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        wireframe.presentMovieDetail(from: self, movie: movies[indexPath.row])
+        let movie = movies[indexPath.row]
+        presenter.wireframe.movieDetail(from: self, movie: movie).show(animated: true)
     }
 }
 

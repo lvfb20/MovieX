@@ -9,53 +9,33 @@
 import Swinject
 import SwinjectStoryboard
 
-open class Wireframe {
-    
-    static func startAppNavigation() {
-        guard let view = SwinjectStoryboard.defaultContainer.resolve(SplashViewController.self) else { return }
-        let splashNavVC = UINavigationController(rootViewController: view)
-        self.getWindow().rootViewController = splashNavVC
-        self.getWindow().makeKeyAndVisible()
-    }
-    
-     func presentMoviesList() {
-        guard let view = SwinjectStoryboard.defaultContainer.resolve(MoviesListViewController.self) else { return }
-        let navVC = UINavigationController(rootViewController: view)
-        Wireframe.newRootViewController(navVC)
-    }
-    
-    func presentMovieDetail(from vc: UIViewController, movie: Movie) {
-        guard let view = SwinjectStoryboard.defaultContainer.resolve(MovieDetailViewController.self, argument: movie ) else { return }
-        vc.navigationController?.pushViewController(view, animated: true)
-    }
+protocol Wireframe {
+    func start()
+    func moviesList()
+    func movieDetail(from vc: UIViewController, movie: Movie) -> Screen
 }
 
-extension Wireframe {
+final class WireframeImpl: Wireframe {
     
-    private static func newRootViewController(_ vc: UIViewController) {
-        let window = self.getWindow()
-        if let root = window!.rootViewController {
-            root.presentedViewController?.dismiss(animated: false, completion: nil)
-            for view in root.view.subviews {
-                view.removeFromSuperview()
-            }
-            root.view.removeFromSuperview()
+    func start() {
+        guard let vc = SwinjectStoryboard.defaultContainer.resolve(SplashViewController.self) else {
+            fatalError("Couldn't instantiate SplashViewController")
         }
-        window!.rootViewController = vc
-        window!.makeKeyAndVisible()
-        window!.backgroundColor = .white
+        UIApplication.shared.keyWindow?.replaceRootViewControllerWith(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     
-    internal static func getWindow() -> UIWindow! {
-        let appDelegate = (UIApplication.shared.delegate as? AppDelegate)!
-        
-        if appDelegate.window == nil {
-            appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
+     func moviesList() {
+        guard let view = SwinjectStoryboard.defaultContainer.resolve(MoviesListViewController.self) else {
+            fatalError("Couldn't instantiate MoviesListViewController")
         }
-        return appDelegate.window!
+        let navVC = UINavigationController(rootViewController: view)
+        UIApplication.shared.keyWindow?.replaceRootViewControllerWith(navVC, animated: true, completion: nil)
     }
     
-    static func getVCFromStoryBoard<Subject>(_ viewControllerClass: Subject, storyBoard: UIStoryboard) -> UIViewController {
-        return storyBoard.instantiateViewController(withIdentifier: String(describing: viewControllerClass))
+    func movieDetail(from vc: UIViewController, movie: Movie) -> Screen {
+        guard let vc = SwinjectStoryboard.defaultContainer.resolve(MovieDetailViewController.self, argument: movie ) else {
+            fatalError("Couldn't instantiate MovieDetailViewController")
+        }
+        return Screen(viewController: vc, isModal: false, animated: true)
     }
 }

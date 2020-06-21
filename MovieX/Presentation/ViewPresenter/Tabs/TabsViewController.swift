@@ -34,7 +34,7 @@ class TabsViewController: UITabBarController {
         let imagesOff: [String] = ["", "", ""]
         
         for index in 0..<titles.count {
-            let tab = UITabBarItem(title: titles[index].locale(),
+            let tab = UITabBarItem(title: titles[index].localized,
                                    image: UIImage(named: imagesOff[index]),
                                    selectedImage: UIImage(named: imagesOff[index]))
             self.viewControllers?[index].tabBarItem = tab

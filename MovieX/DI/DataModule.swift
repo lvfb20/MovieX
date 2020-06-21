@@ -11,32 +11,44 @@ import Swinject
 class DataModule {
     
     func setup(_ defaultContainer: Container) {
+        self.resolveManagers(defaultContainer)
         self.resolveRepositories(defaultContainer)
         self.resolveInteractors(defaultContainer)
     }
     
-    func resolveRepositories(_ defaultContainer: Container) {
+    func resolveManagers(_ defaultContainer: Container) {
 
         defaultContainer.register(LocalManager.self) { _ in
             LocalManager()
         }
-
-        defaultContainer.register(NetworkManager.self) { _ in
-
-            let env: NetworkEnvironment = .development
-
-            //            #if DEVELOPMENT
-            //                env = .development
-            //            #else
-            //                env = .production
-            //            #endif
-
-            return NetworkManager(environment: env)
+        
+        defaultContainer.register(SingletonManager.self) { _ in
+            SingletonManager.sharedInstance
         }
 
+        defaultContainer.register(NetworkManager.self) { _ in
+            var env: NetworkEnvironment = .development
+                #if DEVELOPMENT
+                    env = .development
+                #else
+                    env = .production
+                #endif
+            return NetworkManager(environment: env)
+        }
+    }
+    
+    func resolveRepositories(_ defaultContainer: Container) {
+
+        defaultContainer.register(BaseRepository.self) { r in
+            BaseRepositoryImpl(networkManager: r.resolve(NetworkManager.self)!,
+                               localManager: r.resolve(LocalManager.self)!,
+                               singletonManager: r.resolve(SingletonManager.self)!)
+        }
+        
         defaultContainer.register(MoviesRepository.self) { r in
             MoviesRepositoryImpl(networkManager: r.resolve(NetworkManager.self)!,
-                               localManager: r.resolve(LocalManager.self)!)
+                                 localManager: r.resolve(LocalManager.self)!,
+                                 singletonManager: r.resolve(SingletonManager.self)!)
         }
     }
     

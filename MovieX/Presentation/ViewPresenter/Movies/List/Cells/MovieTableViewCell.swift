@@ -16,6 +16,10 @@ class MovieTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
 
     func display(movie: Movie) {
         posterImage.loadImage(urlString: movie.getThumbnail())
