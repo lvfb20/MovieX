@@ -33,6 +33,7 @@ final class Style {
         static var secondaryText: UIColor { return charcoal }
         static var tint: UIColor { return greendb }
         static var background: UIColor { return bluedb }
+        static var smallText: UIColor { return .lightGray}
    
         enum Badge {
             static var text: UIColor { return .white }

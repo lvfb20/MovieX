@@ -37,6 +37,17 @@ class MovieDetailViewController: BaseViewController<MovieDetailPresenter> {
         setBackButton()
     }
     
+    override func setupView() {
+        super.setupView()
+        movieTitleLabel.font = Style.Font.with(name: .gillSans, size: 20, weight: .bold)
+        releaseDateLabel.font = Style.Font.with(name: .gillSans, size: 14, weight: .light)
+        movieOverviewLabel.font = Style.Font.with(name: .gillSans, size: 17, weight: .regular)
+        
+        movieTitleLabel.textColor = Style.Color.text
+        movieOverviewLabel.textColor = Style.Color.secondaryText
+        releaseDateLabel.textColor = Style.Color.smallText
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }

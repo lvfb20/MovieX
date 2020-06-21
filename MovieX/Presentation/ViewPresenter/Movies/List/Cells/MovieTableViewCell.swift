@@ -15,10 +15,13 @@ class MovieTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        titleLabel.font = Style.Font.with(name: .gillSans, size: 17, weight: .regular)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        posterImage.image = nil
+        titleLabel.text = ""
     }
 
     func display(movie: Movie) {
