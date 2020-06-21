@@ -35,18 +35,3 @@ class Movie {
     }
 }
 
-//extension MovieEntity {
-//    func parseToModel() -> Movie {
-//        let movie = Movie()
-//        movie.id = self.id
-//        movie.title = self.title
-//        movie.originalTitle = self.originalTitle
-//        movie.overview = self.overview
-//        movie.posterPath = self.posterPath
-//        movie.backDropPath = self.backDropPath
-//        if let releaseDate = self.releaseDate {
-//            movie.releaseDate = Date(string: releaseDate, formatter: .yearMonthAndDay)
-//        }
-//        return movie
-//    }
-//}

@@ -139,7 +139,7 @@ class HelperBaseViewController: UIViewController, BaseView {
              .serverException, .notFound, .unknown, .parsing:
             showNativeAlert(title: title, message: error.localizedDescription)
         case .api:
-            // TODO: Don't show the api errors to users because are not correctly formated
+            //Don't show the api errors to users because are not correctly formated
             #if DEBUG
                 showNativeAlert(title: title, message: error.localizedDescription)
             #else
@@ -153,7 +153,9 @@ class HelperBaseViewController: UIViewController, BaseView {
         }
     }
     
-    // MARK: Loadable
+    // -------------------------------------
+    // MARK: Section - Loadable
+    // -------------------------------------
     
     func showLoading() {
         HUD.show(.progress)
@@ -169,7 +171,6 @@ class HelperBaseViewController: UIViewController, BaseView {
 }
 
 extension HelperBaseViewController {
-    
     func setNavButton(left: Bool, text: String? = nil, image: UIImage? = nil, action: (() -> Void)? = nil ) {
         let myButton = UIButton.init(type: .custom)
         
@@ -195,7 +196,6 @@ extension HelperBaseViewController {
             myButton.addTarget(self, action: #selector(self.rightButtonClicked(sender:)), for: .touchUpInside)
             self.navigationItem.rightBarButtonItem  = UIBarButtonItem(customView: myButton)
         }
-        
     }
     
     func setBackButton() {
@@ -208,7 +208,6 @@ extension HelperBaseViewController {
         } else {
             _ = self.navigationController?.popViewController(animated: true)
         }
-        
     }
     
     @objc func rightButtonClicked(sender: UIBarButtonItem) {
@@ -217,4 +216,3 @@ extension HelperBaseViewController {
         }
     }
 }
-

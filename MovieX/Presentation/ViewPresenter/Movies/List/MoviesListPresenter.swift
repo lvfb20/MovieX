@@ -15,10 +15,10 @@ class MoviesListPresenter: BasePresenter {
         return baseView as? MoviesListView
     }
     
-    private var moviesInteractor: MoviesInteractorProtocol
+    private var moviesInteractor: MoviesInteractor
 
     init(wireframe: Wireframe,
-         moviesInteractor: MoviesInteractorProtocol) {
+         moviesInteractor: MoviesInteractor) {
         self.moviesInteractor = moviesInteractor
         super.init(wireframe: wireframe)
     }

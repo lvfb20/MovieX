@@ -1,5 +1,5 @@
 //
-//  BaseInteractor.swift
+//  BaseInteractorImpl.swift
 //  MovieX
 //
 //  Created by Legna Filloy on 7/18/19.
@@ -8,8 +8,5 @@
 
 import Foundation
 
-protocol BaseInteractorProtocol {    
-}
-
-class BaseInteractor: BaseInteractorProtocol {
+class BaseInteractorImpl: BaseInteractor {
 }

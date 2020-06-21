@@ -1,5 +1,5 @@
 //
-//  MoviesInteractor.swift
+//  MoviesInteractorImpl.swift
 //  MovieX
 //
 //  Created by Legna Filloy on 8/30/19.
@@ -9,11 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol MoviesInteractorProtocol {
-    func getPopularMovies() -> Single<[Movie]>
-}
-
-class MoviesInteractor: BaseInteractor, MoviesInteractorProtocol {
+class MoviesInteractorImpl: BaseInteractorImpl, MoviesInteractor {
 
     private var moviesRepository: MoviesRepository
     

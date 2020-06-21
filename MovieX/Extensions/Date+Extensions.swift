@@ -19,4 +19,3 @@ extension Date {
         self.init(timeIntervalSince1970: date.timeIntervalSince1970)
     }
 }
-

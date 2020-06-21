@@ -28,4 +28,3 @@ class MovieEntity: Codable {
        case overview
    }
 }
-

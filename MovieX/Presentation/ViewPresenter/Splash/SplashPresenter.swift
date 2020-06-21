@@ -15,9 +15,7 @@ class SplashPresenter: BasePresenter {
     }
     
     override func viewDidLoad() {
-        // Aqui se puede pedir data importante y mientras mostrar un splash animado
-        // una vez se reciba la data, se direcciona
+        // Request all the necessary information and then present the initial Flow
         view?.goToMoviesList()
     }
-    
 }

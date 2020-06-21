@@ -18,16 +18,14 @@ class ViewModule {
         defaultContainer.register(Wireframe.self) { _ in
             WireframeImpl()
         }
-
         defaultContainer.register(BasePresenter.self) { r in
             BasePresenter(wireframe: r.resolve(Wireframe.self)!)
         }
-
         defaultContainer.register(SplashPresenter.self) { r in
             SplashPresenter(wireframe: r.resolve(Wireframe.self)!)
         }
         defaultContainer.register(MoviesListPresenter.self) { r in
-            MoviesListPresenter(wireframe: r.resolve(Wireframe.self)!, moviesInteractor: r.resolve(MoviesInteractorProtocol.self)!)
+            MoviesListPresenter(wireframe: r.resolve(Wireframe.self)!, moviesInteractor: r.resolve(MoviesInteractor.self)!)
         }
         defaultContainer.register(MovieDetailPresenter.self) { (r, movie: Movie) in
             MovieDetailPresenter(wireframe: r.resolve(Wireframe.self)!, movie: movie)

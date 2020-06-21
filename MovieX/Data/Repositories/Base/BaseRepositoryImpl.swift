@@ -30,20 +30,12 @@ class BaseRepositoryImpl: BaseRepository {
         return localManager
     }
     
-//    func fillBaseRequest<P>(_ baseRequest: P) -> P where P: BaseRequest {
-//        guard let token = self.getLocalManager().getAuthToken() else { return baseRequest }
-//        baseRequest.authToken = token
-//        return baseRequest
-//    }
-//
-    /// Values that must have include en every request
+    /// Values ​​to include in each request
     func fillBaseRequest<P>(_ baseRequest: P) -> P where P: BaseRequest {
         baseRequest.deviceModel = UIDevice.current.model
         baseRequest.deviceOS = UIDevice.current.systemName
         baseRequest.deviceVersion = UIDevice.current.systemVersion
         baseRequest.deviceId = UIDevice.current.identifierForVendor?.uuidString ?? ""
-        
         return baseRequest
     }
-    
 }

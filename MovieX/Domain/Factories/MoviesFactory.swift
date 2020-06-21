@@ -9,9 +9,9 @@ import Foundation
 
 final class MoviesFactory {
     
-    // MARK: - Stage
+    // MARK: - Movie
     static func newMovie(with response: MovieEntity) throws -> Movie {
-        guard let id = response.id as? Int else {
+        guard let id = response.id else {
             throw MovieXError.parsing(message: "Movie doesn't have a valid id.")
         }
         
@@ -28,4 +28,3 @@ final class MoviesFactory {
         return movie
     }
 }
-
