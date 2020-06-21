@@ -19,18 +19,14 @@ protocol Loadable {
 
 class BaseViewController<P: BasePresenter>: HelperBaseViewController {
     
-    // -------------------------------------
     // MARK: Section - Vars
-    // -------------------------------------
-    
+
     typealias Presenter = P
     
     var presenter: Presenter!
     
-    // -------------------------------------
     // MARK: Section - UIViewController
-    // -------------------------------------
-    
+
     override func loadView() {
         super.loadView()
         presenter.loadView()

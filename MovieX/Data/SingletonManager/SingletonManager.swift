@@ -20,7 +20,8 @@ class SingletonManager {
     // MARK: Init
     
     private init() {
-
     }
+    
+    //If you need manage singleton
 }
 

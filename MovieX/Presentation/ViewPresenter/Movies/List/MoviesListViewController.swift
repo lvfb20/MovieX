@@ -14,22 +14,16 @@ protocol MoviesListView: BaseView {
 
 class MoviesListViewController: BaseViewController<MoviesListPresenter> {
     
-    // -------------------------------------
     // MARK: Section - Outlets
-    // -------------------------------------
-    
+
     @IBOutlet weak var tableView: UITableView!
     
-    // -------------------------------------
     // MARK: Section - Private vars
-    // -------------------------------------
-    
+
     fileprivate var movies: [Movie] = []
 
-    // -------------------------------------
     // MARK: Section - UIViewController
-    // -------------------------------------
-    
+
     override func loadView() {
         super.loadView()
         self.loadNibFor(viewControllerClass: MoviesListViewController.self)
@@ -40,11 +34,8 @@ class MoviesListViewController: BaseViewController<MoviesListPresenter> {
         setupTableView()
     }
     
-    // -------------------------------------
     // MARK: Section - Private functions
-    // -------------------------------------
 
-    
     private func setupTableView() {
         self.navigationItem.title = "Movies.Navigation.title".localized
         tableView.dataSource = self

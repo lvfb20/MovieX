@@ -14,19 +14,15 @@ protocol MovieDetailView: BaseView {
 
 class MovieDetailViewController: BaseViewController<MovieDetailPresenter> {
     
-    // -------------------------------------
-    // MARK: Section - Outlets
-    // -------------------------------------
-    
+   // MARK: Section - Outlets
+
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var movieOverviewLabel: UILabel!
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var releaseDateLabel: UILabel!
     
-    // -------------------------------------
-    // MARK: Section - UIViewController
-    // -------------------------------------
-    
+   // MARK: Section - UIViewController
+
     override func loadView() {
         super.loadView()
         self.loadNibFor(viewControllerClass: MovieDetailViewController.self)

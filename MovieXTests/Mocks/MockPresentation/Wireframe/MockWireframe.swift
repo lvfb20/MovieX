@@ -11,17 +11,13 @@ import UIKit
 
 class MockWireframe: Wireframe {
     
-    // -------------------------------------
     // MARK: Section - Testing vars
-    // -------------------------------------
-    
+
     var presentMoviesListCalled = false
     var presentMovieDetailCalled = false
     
-    // -------------------------------------
     // MARK: Section - Functions
-    // -------------------------------------
-    
+
     override func presentMoviesList() {
         presentMoviesListCalled = true
     }

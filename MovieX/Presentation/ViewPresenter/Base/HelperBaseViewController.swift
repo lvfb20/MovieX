@@ -11,10 +11,8 @@ import PKHUD
 
 class HelperBaseViewController: UIViewController, BaseView {
     
-    // -------------------------------------
     // MARK: Section - Vars
-    // -------------------------------------
-    
+
     internal var tapGestureRecognizer: UITapGestureRecognizer!
     
     internal var needNavigationBar = false
@@ -22,10 +20,8 @@ class HelperBaseViewController: UIViewController, BaseView {
     private var navLeftAction: (() -> Void)?
     private var navRightAction: (() -> Void)?
 
-    // -------------------------------------
     // MARK: Section - UIViewController
-    // -------------------------------------
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -50,10 +46,8 @@ class HelperBaseViewController: UIViewController, BaseView {
         return .default
     }
     
-    // -------------------------------------
     // MARK: Section - Public methods
-    // -------------------------------------
-    
+
     internal func setupView() {
         // Since there is no xib o storyboards, a basic background color is needed to avoid clear.
         view.backgroundColor = .white
@@ -68,10 +62,8 @@ class HelperBaseViewController: UIViewController, BaseView {
         self.tapGestureRecognizer?.cancelsTouchesInView = true
     }
     
-    // -------------------------------------
     // MARK: Section - Private Methods
-    // -------------------------------------
-    
+ 
     private func addTapGestureNotification() {
         tapGestureRecognizer = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tapGestureRecognizer.cancelsTouchesInView = false
@@ -98,10 +90,8 @@ class HelperBaseViewController: UIViewController, BaseView {
                                                   object: nil)
     }
     
-    // -------------------------------------
-    // MARK: Keyboard Handlers
-    // -------------------------------------
-    
+   // MARK: Keyboard Handlers
+
     @objc private  func handleBaseKeyboardWillShowNotification(_ notification: Notification) {
         let userInfo: Dictionary = notification.userInfo!
         let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
@@ -122,10 +112,8 @@ class HelperBaseViewController: UIViewController, BaseView {
         NSLog("Keyboard hide in base")
     }
     
-    // -------------------------------------
-    // MARK: Section - BaseView Protocol
-    // -------------------------------------
-    
+   // MARK: Section - BaseView Protocol
+ 
     func showNativeAlert(title: String, message: String? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Generic.Ok".localized.capitalized, style: .default, handler: nil))
@@ -153,10 +141,8 @@ class HelperBaseViewController: UIViewController, BaseView {
         }
     }
     
-    // -------------------------------------
     // MARK: Section - Loadable
-    // -------------------------------------
-    
+
     func showLoading() {
         HUD.show(.progress)
     }

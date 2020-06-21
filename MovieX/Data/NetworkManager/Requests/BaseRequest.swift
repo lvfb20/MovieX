@@ -9,7 +9,7 @@
 import Foundation
 
 class BaseRequest {
-    // si se necesita enviar cierta data en cada request
+    // All necessary info for each request
     var deviceModel: String?
     var deviceOS: String?
     var deviceVersion: String?

@@ -9,5 +9,5 @@
 import Foundation
 
 class LocalManager {
-    
+    //If you need manage local information
 }

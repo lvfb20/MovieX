@@ -10,10 +10,8 @@
 
 class MockBaseViewController<P: BasePresenter>: HelperBaseViewController {
     
-    // -------------------------------------
     // MARK: TESTING VARS
-    // -------------------------------------
-    
+
     var fc_showLoading = false
     var fc_hideLoading = false
     
@@ -25,27 +23,21 @@ class MockBaseViewController<P: BasePresenter>: HelperBaseViewController {
     var dr_showPrettyAlert_title: String? = nil
     var dr_showPrettyAlert_message: String? = nil
    
-    // -------------------------------------
     // MARK: Section - Vars
-    // -------------------------------------
-    
+
     typealias Presenter = P
     var presenter: Presenter!
     
-    // -------------------------------------
     // MARK: Section - UIViewController
-    // -------------------------------------
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.attachView(view: self)
         presenter.viewDidLoad()
     }
     
-    // -------------------------------------
     // MARK: Section - Base View
-    // -------------------------------------
-    
+
     override func showLoading() {
         fc_showLoading = true
     }
@@ -54,10 +46,8 @@ class MockBaseViewController<P: BasePresenter>: HelperBaseViewController {
         fc_hideLoading = true
     }
     
-    // -------------------------------------
     // MARK: Section - Public methods
-    // -------------------------------------
-    
+
     override func showNativeAlert(title: String, message: String? = nil) {
         fc_showNativeAlert = true
         dr_showNativeAlert_title = title
