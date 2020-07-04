@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MoviesListView: BaseView {
-    func showMovies(_ movies: [Movie])
+    func reloadMovies()
 }
 
 class MoviesListViewController: BaseViewController<MoviesListPresenter> {
@@ -47,15 +47,15 @@ class MoviesListViewController: BaseViewController<MoviesListPresenter> {
 
 extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        return presenter.numberOfRows(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableBy(cell: MovieTableViewCell.self) else {
             return UITableViewCell()
         }
-        let movie = movies[indexPath.row]
-        cell.display(movie: movie)
+        let viewModel = presenter.getViewModel(at: indexPath.row)
+        cell.setup(viewModel: viewModel)
         return cell
     }
     
@@ -64,14 +64,13 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = movies[indexPath.row]
+        let movie = presenter.getMovie(at: indexPath.row)
         presenter.wireframe.movieDetail(from: self, movie: movie).show(animated: true)
     }
 }
 
 extension MoviesListViewController: MoviesListView {
-    func showMovies(_ movies: [Movie]) {
-        self.movies = movies
+    func reloadMovies() {
         tableView.reloadData()
     }
 }

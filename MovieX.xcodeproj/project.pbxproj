@@ -38,6 +38,8 @@
 		195E187C249FCAEE00DD7FE4 /* BaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195E187B249FCAEE00DD7FE4 /* BaseInteractor.swift */; };
 		195E187E249FCB2800DD7FE4 /* MoviesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195E187D249FCB2800DD7FE4 /* MoviesInteractor.swift */; };
 		195E1880249FDA3900DD7FE4 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195E187F249FDA3900DD7FE4 /* Style.swift */; };
+		195F17A124B0A29D006CDFB7 /* MovieCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195F17A024B0A29D006CDFB7 /* MovieCellViewModel.swift */; };
+		195F17A324B0A33B006CDFB7 /* CellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195F17A224B0A33B006CDFB7 /* CellConfigurable.swift */; };
 		197106D2231A8F9A00448F77 /* MoviesDataDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197106D1231A8F9A00448F77 /* MoviesDataDummy.swift */; };
 		197106D6231A92FB00448F77 /* MoviesListViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197106D5231A92FB00448F77 /* MoviesListViewControllerSpec.swift */; };
 		197106D8231AB3D300448F77 /* MoviesListPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197106D7231AB3D300448F77 /* MoviesListPresenterSpec.swift */; };
@@ -150,6 +152,8 @@
 		195E187B249FCAEE00DD7FE4 /* BaseInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInteractor.swift; sourceTree = "<group>"; };
 		195E187D249FCB2800DD7FE4 /* MoviesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesInteractor.swift; sourceTree = "<group>"; };
 		195E187F249FDA3900DD7FE4 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		195F17A024B0A29D006CDFB7 /* MovieCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCellViewModel.swift; sourceTree = "<group>"; };
+		195F17A224B0A33B006CDFB7 /* CellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurable.swift; sourceTree = "<group>"; };
 		197106D1231A8F9A00448F77 /* MoviesDataDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesDataDummy.swift; sourceTree = "<group>"; };
 		197106D5231A92FB00448F77 /* MoviesListViewControllerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListViewControllerSpec.swift; sourceTree = "<group>"; };
 		197106D7231AB3D300448F77 /* MoviesListPresenterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListPresenterSpec.swift; sourceTree = "<group>"; };
@@ -496,6 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				195E187F249FDA3900DD7FE4 /* Style.swift */,
+				195F17A224B0A33B006CDFB7 /* CellConfigurable.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -655,6 +660,7 @@
 			children = (
 				19CA098E2319526E005D385F /* MovieTableViewCell.swift */,
 				19CA098F2319526E005D385F /* MovieTableViewCell.xib */,
+				195F17A024B0A29D006CDFB7 /* MovieCellViewModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1170,6 +1176,7 @@
 				1953C31B22E1329800B3ADF2 /* BaseRepository.swift in Sources */,
 				19E82231249F6C7D009417CD /* Screen.swift in Sources */,
 				195E187C249FCAEE00DD7FE4 /* BaseInteractor.swift in Sources */,
+				195F17A324B0A33B006CDFB7 /* CellConfigurable.swift in Sources */,
 				1953C32A22E1329800B3ADF2 /* MoviesRepositoryImpl.swift in Sources */,
 				1953C35122E1337A00B3ADF2 /* String+Extensions.swift in Sources */,
 				19E8222F249E8423009417CD /* PrimitiveSequence+Loading.swift in Sources */,
@@ -1189,6 +1196,7 @@
 				1953C35222E1337A00B3ADF2 /* UIColor+Extensions.swift in Sources */,
 				19CA098623192AEA005D385F /* MoviesInteractorImpl.swift in Sources */,
 				1953C32322E1329800B3ADF2 /* BaseRequest.swift in Sources */,
+				195F17A124B0A29D006CDFB7 /* MovieCellViewModel.swift in Sources */,
 				19E82238249F6FCA009417CD /* SingletonManager.swift in Sources */,
 				19E8222D249E7D6D009417CD /* MovieXError.swift in Sources */,
 				1953C31D22E1329800B3ADF2 /* BaseInteractorImpl.swift in Sources */,

@@ -16,6 +16,8 @@ class MoviesListPresenter: BasePresenter {
     }
     
     private var moviesInteractor: MoviesInteractor
+    private var movies: [Movie] = []
+    private var viewModels: [MovieCellViewModel] = []
 
     init(wireframe: Wireframe,
          moviesInteractor: MoviesInteractor) {
@@ -30,8 +32,27 @@ class MoviesListPresenter: BasePresenter {
         .handleError(presenter: self)
         .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
         .observeOn(MainScheduler.asyncInstance)
-        .subscribe(onSuccess: { (movies) in
-            self.view?.showMovies(movies)
+        .subscribe(onSuccess: { [weak self] (movies) in
+            self?.movies = movies
+            self?.buildViewModels()
         }).disposed(by: disposeBag)
+    }
+    
+    private func buildViewModels() {
+        viewModels = movies.map({MovieCellViewModel(title: $0.title, posterImage: $0.getThumbnail())})
+        view?.reloadMovies()
+    }
+    
+    func numberOfRows(in section: Int) -> Int {
+        return viewModels.count
+    }
+    
+    func getViewModel(at index: Int) -> MovieCellViewModel {
+        return viewModels[index]
+    }
+    
+    func getMovie(at index: Int) -> Movie {
+        let movie = movies[index]
+        return movie
     }
 }
