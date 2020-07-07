@@ -38,6 +38,7 @@ extension MoviesTarget: TargetType {
         let header: [String: String] = ["Content-Type": "application/json"]
         return header
     }
+    
     var task: Task {
         switch self {
         case .popularMovies:
@@ -46,6 +47,7 @@ extension MoviesTarget: TargetType {
             return .requestPlain
         }
     }
+    
     var sampleData: Data {
         return "".data(using: .utf8)!
     }
