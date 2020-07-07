@@ -18,10 +18,6 @@ class MoviesListViewController: BaseViewController<MoviesListPresenter> {
 
     @IBOutlet weak var tableView: UITableView!
     
-    // MARK: Section - Private vars
-
-    fileprivate var movies: [Movie] = []
-
     // MARK: Section - UIViewController
 
     override func loadView() {
@@ -31,13 +27,20 @@ class MoviesListViewController: BaseViewController<MoviesListPresenter> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+    }
+    
+    override func setupView() {
+        super.setupView()
+        navigationItem.title = "Movies.Navigation.title".localized
+        navigationController?.navigationBar.prefersLargeTitles = true
         setupTableView()
     }
     
     // MARK: Section - Private functions
 
     private func setupTableView() {
-        self.navigationItem.title = "Movies.Navigation.title".localized
+        tableView.contentInsetAdjustmentBehavior = .never
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()

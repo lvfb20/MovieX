@@ -35,6 +35,7 @@ class MovieDetailViewController: BaseViewController<MovieDetailPresenter> {
     
     override func setupView() {
         super.setupView()
+       
         movieTitleLabel.font = Style.Font.with(name: .gillSans, size: 20, weight: .bold)
         releaseDateLabel.font = Style.Font.with(name: .gillSans, size: 14, weight: .light)
         movieOverviewLabel.font = Style.Font.with(name: .gillSans, size: 17, weight: .regular)
@@ -51,6 +52,7 @@ class MovieDetailViewController: BaseViewController<MovieDetailPresenter> {
 
 extension MovieDetailViewController: MovieDetailView {
     func showDetails(movie: Movie) {
+        navigationItem.title = movie.title
         movieTitleLabel.text = movie.title
         movieOverviewLabel.text = movie.overview
         movieImage.loadImage(urlString: movie.getPoster())

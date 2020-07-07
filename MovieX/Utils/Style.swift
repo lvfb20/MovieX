@@ -34,7 +34,7 @@ final class Style {
         static var tint: UIColor { return greendb }
         static var background: UIColor { return bluedb }
         static var smallText: UIColor { return .lightGray}
-   
+        
         enum Badge {
             static var text: UIColor { return .white }
             static var background: UIColor { return .red }
@@ -43,7 +43,7 @@ final class Style {
     
     enum Font {
         enum Name: String {
-            case gillSans = "Gill Sans" // Not necessary since it's system font.
+            case gillSans = "Gill Sans"
         }
         
         static func with(name: Name = .gillSans, size: CGFloat, weight: UIFont.Weight) -> UIFont {
