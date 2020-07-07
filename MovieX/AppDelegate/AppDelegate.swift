@@ -18,6 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         Style.configureAppearance()
         startNavigationIfNotTesting()
+        
+        #if LOCAL
+            print("LOCAL")
+        #elseif DEVELOPMENT
+            print("DEVELOPMENT")
+        #elseif PRODUCTION
+            print("PRODUCTION")
+        #endif
+        
+        
         return true
     }
 }

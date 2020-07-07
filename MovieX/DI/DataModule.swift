@@ -26,9 +26,7 @@ class DataModule {
         }
         defaultContainer.register(NetworkManager.self) { _ in
             var env: NetworkEnvironment = .development
-                #if DEVELOPMENT
-                    env = .development
-                #else
+                #if PRODUCTION
                     env = .production
                 #endif
             return NetworkManager(environment: env)
