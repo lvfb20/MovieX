@@ -9,5 +9,5 @@
 import Foundation
 @testable import MovieX
 
-class MockBaseIteractor: BaseInteractorProtocol {
+class MockBaseIteractor: BaseInteractor {
 }

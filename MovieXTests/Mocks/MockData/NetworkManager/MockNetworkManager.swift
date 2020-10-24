@@ -28,7 +28,7 @@ class MockNetworkManager: NetworkManager {
             }
             self.provider = MoyaProvider<MultiTarget>(endpointClosure: serverEndpointClosure,
                                                       stubClosure: MoyaProvider.immediatelyStub,
-                                                      plugins: RestClientHelper.getProviderPugins())
+                                                      plugins: [RestClientHelper.getLoggerPlugin()])
             
         }
     }

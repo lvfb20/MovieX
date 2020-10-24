@@ -12,12 +12,21 @@ import Foundation
 class MockMoviesListPresenter: MoviesListPresenter {
     
     var viewDidLoadCalled: Bool = false
-    var moviesToShow: [Movie]?
+    var didSelectRowCalled: Bool = false
+    var movies:[Movie] = []
     
     override func viewDidLoad() {
         viewDidLoadCalled = true
-        if let movies = self.moviesToShow {
-            self.view?.showMovies(movies)
-        } 
+        buildViewModels()
     }
+    
+    override func buildViewModels() {
+        viewModels = movies.map({MovieCellViewModel(title: $0.title, posterImage: $0.getThumbnail())})
+        view?.reloadMovies()
+    }
+    
+    override func didSelectRow(at index: Int) {
+        didSelectRowCalled = true
+    }
+    
 }

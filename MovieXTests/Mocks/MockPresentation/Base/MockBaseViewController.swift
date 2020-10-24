@@ -18,10 +18,6 @@ class MockBaseViewController<P: BasePresenter>: HelperBaseViewController {
     var fc_showNativeAlert = false
     var dr_showNativeAlert_title: String? = nil
     var dr_showNativeAlert_message: String? = nil
-    
-    var fc_showPrettyAlert = false
-    var dr_showPrettyAlert_title: String? = nil
-    var dr_showPrettyAlert_message: String? = nil
    
     // MARK: Section - Vars
 
@@ -53,11 +49,6 @@ class MockBaseViewController<P: BasePresenter>: HelperBaseViewController {
         dr_showNativeAlert_title = title
         dr_showNativeAlert_message = message
     }
-    
-    override func showPrettyAlert(title: String, message: String) {
-        fc_showPrettyAlert = true
-        dr_showPrettyAlert_title = title
-        dr_showPrettyAlert_message = message
-    }
+
 }
 

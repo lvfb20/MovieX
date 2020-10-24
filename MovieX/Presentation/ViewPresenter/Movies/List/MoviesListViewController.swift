@@ -10,6 +10,7 @@ import UIKit
 
 protocol MoviesListView: BaseView {
     func reloadMovies()
+    func showMovieDetail(movie: Movie)
 }
 
 class MoviesListViewController: BaseViewController<MoviesListPresenter> {
@@ -27,7 +28,6 @@ class MoviesListViewController: BaseViewController<MoviesListPresenter> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
     }
     
     override func setupView() {
@@ -67,13 +67,16 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = presenter.getMovie(at: indexPath.row)
-        presenter.wireframe.movieDetail(from: self, movie: movie).show(animated: true)
+        presenter.didSelectRow(at: indexPath.row)
     }
 }
 
 extension MoviesListViewController: MoviesListView {
     func reloadMovies() {
         tableView.reloadData()
+    }
+    
+    func showMovieDetail(movie: Movie) {
+        presenter.wireframe.movieDetail(from: self, movie: movie).show(animated: true)
     }
 }

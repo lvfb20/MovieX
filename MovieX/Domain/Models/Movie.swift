@@ -26,12 +26,12 @@ class Movie {
     
     func getPoster() -> String? {
         guard let poster = self.posterPath else { return nil }
-        return "https://image.tmdb.org/t/p/w300" + poster
+        return "https://image.tmdb.org/t/p/w500" + poster
     }
     
     func getBackdrop() -> String? {
         guard let backDropPath = self.backDropPath else { return nil }
-        return "https://image.tmdb.org/t/p/w300" + backDropPath
+        return "https://image.tmdb.org/t/p/w500" + backDropPath
     }
 }
 

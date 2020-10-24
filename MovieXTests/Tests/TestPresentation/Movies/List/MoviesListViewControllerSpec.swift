@@ -17,17 +17,11 @@ class MoviesListViewControllerSpec: QuickSpec {
         
         var subject: MoviesListViewController!
         var mockPresenter: MockMoviesListPresenter!
-        var mockWireframe: MockWireframe!
         
         //Global Setup/Teardown
         beforeSuite {
             //setup
             MockDI.mockDependencies()
-            mockPresenter = MockDI.mockContainer.resolve(MoviesListPresenter.self) as? MockMoviesListPresenter
-            mockWireframe = MockDI.mockContainer.resolve(Wireframe.self) as? MockWireframe
-            subject = MoviesListViewController()
-            subject.presenter = mockPresenter
-            subject.wireframe = mockWireframe
         }
         
         afterSuite {
@@ -36,6 +30,9 @@ class MoviesListViewControllerSpec: QuickSpec {
         
         describe("MoviesListViewController") {
             beforeEach {
+                mockPresenter = MockDI.mockContainer.resolve(MoviesListPresenter.self) as? MockMoviesListPresenter
+                subject = MoviesListViewController()
+                subject.presenter = mockPresenter
                 subject.preloadViewForTest()
             }
             
@@ -52,8 +49,7 @@ class MoviesListViewControllerSpec: QuickSpec {
                 beforeEach {
                     subject = MoviesListViewController()
                     subject.presenter = mockPresenter
-                    subject.wireframe = mockWireframe
-                    mockPresenter.moviesToShow = MoviesDataDummy.getMovies()
+                    mockPresenter.movies = MoviesDataDummy.getMovies()
                     subject.preloadViewForTest()
                 }
                 
@@ -70,7 +66,7 @@ class MoviesListViewControllerSpec: QuickSpec {
                 
                 it("should call presentMovieDetail") {
                     subject.tableView(subject.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
-                    expect(mockWireframe.presentMovieDetailCalled).to(beTrue())
+                    expect(mockPresenter.didSelectRowCalled).to(beTrue())
                 }
             }
             
@@ -78,8 +74,7 @@ class MoviesListViewControllerSpec: QuickSpec {
                 beforeEach {
                     subject = MoviesListViewController()
                     subject.presenter = mockPresenter
-                    subject.wireframe = mockWireframe
-                    mockPresenter.moviesToShow = nil
+                    mockPresenter.movies = []
                     subject.preloadViewForTest()
                 }
                 

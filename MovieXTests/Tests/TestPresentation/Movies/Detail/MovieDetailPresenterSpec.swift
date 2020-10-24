@@ -15,14 +15,13 @@ class MovieDetailPresenterSpec: QuickSpec {
     override func spec() {
         var subject: MovieDetailPresenter?
         var mockMovieDetailVC: MockMovieDetailViewController?
+        var mockWireframe: MockWireframe!
         
         //Global Setup/Teardown
         beforeSuite {
             //setup
             MockDI.mockDependencies()
-            subject = MovieDetailPresenter(movie: MoviesDataDummy.getMovies().first!)
-            mockMovieDetailVC = MockMovieDetailViewController()
-            mockMovieDetailVC!.presenter = subject
+            
         }
         
         afterSuite {
@@ -33,6 +32,10 @@ class MovieDetailPresenterSpec: QuickSpec {
             
             context("When view is loaded") {
                 beforeEach {
+                    mockWireframe = MockDI.mockContainer.resolve(Wireframe.self) as! MockWireframe
+                    subject = MovieDetailPresenter(wireframe: mockWireframe, movie: MoviesDataDummy.getMovies().first!)
+                    mockMovieDetailVC = MockMovieDetailViewController()
+                    mockMovieDetailVC!.presenter = subject
                     mockMovieDetailVC?.preloadViewForTest()
                 }
                 

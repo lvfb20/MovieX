@@ -15,7 +15,7 @@ class MoviesInteractorSpec: QuickSpec {
     
     var disposeBag: DisposeBag!
     var mockMoviesRepository: MockMoviesRepository?
-    var moviesInteractor: MoviesInteractorProtocol?
+    var moviesInteractor: MoviesInteractor?
     
     override func spec() {
         
@@ -23,7 +23,7 @@ class MoviesInteractorSpec: QuickSpec {
             MockDI.mockDependencies()
             self.disposeBag = DisposeBag()
             self.mockMoviesRepository = MockDI.mockContainer.resolve(MoviesRepository.self) as? MockMoviesRepository
-            self.moviesInteractor = MoviesInteractor(moviesRepository: self.mockMoviesRepository!)
+            self.moviesInteractor = MoviesInteractorImpl(moviesRepository: self.mockMoviesRepository!)
         }
         
         afterSuite {}

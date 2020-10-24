@@ -14,19 +14,14 @@ class MoviesListPresenterSpec: QuickSpec {
     
     override func spec() {
         var subject: MoviesListPresenter?
-        var mockMoviesInteractor: MockMoviesInteractor?
+        var mockMoviesInteractor: MockMoviesInteractor!
+        var mockWireframe: MockWireframe!
         var mockMoviesListVC: MockMoviesListViewController?
         
         //Global Setup/Teardown
         beforeSuite {
             //setup
             MockDI.mockDependencies()
-            
-            mockMoviesInteractor = MockDI.mockContainer.resolve(MoviesInteractorProtocol.self) as? MockMoviesInteractor
-            subject = MoviesListPresenter(moviesInteractor: mockMoviesInteractor!)
-            
-            mockMoviesListVC = MockMoviesListViewController()
-            mockMoviesListVC!.presenter = subject
         }
         
         afterSuite {
@@ -37,7 +32,13 @@ class MoviesListPresenterSpec: QuickSpec {
             
             context("When view is loaded") {
                 beforeEach {
+                    mockWireframe = MockDI.mockContainer.resolve(Wireframe.self) as! MockWireframe
+                    mockMoviesInteractor = MockDI.mockContainer.resolve(MoviesInteractor.self) as! MockMoviesInteractor
+                    subject = MoviesListPresenter(wireframe: mockWireframe, moviesInteractor: mockMoviesInteractor)
+                    mockMoviesListVC = MockMoviesListViewController()
+                    mockMoviesListVC!.presenter = subject
                     mockMoviesListVC?.preloadViewForTest()
+                    
                 }
                 
                 it("subject should not be nil") {
@@ -51,9 +52,10 @@ class MoviesListPresenterSpec: QuickSpec {
             
             context("When popularMovies exists") {
                 beforeEach {
-                    mockMoviesInteractor = MockDI.mockContainer.resolve(MoviesInteractorProtocol.self) as? MockMoviesInteractor
+                    mockWireframe = MockDI.mockContainer.resolve(Wireframe.self) as! MockWireframe
+                    mockMoviesInteractor = MockDI.mockContainer.resolve(MoviesInteractor.self) as? MockMoviesInteractor
                     mockMoviesInteractor?.getPopularMoviesData = MoviesDataDummy.getMovies()
-                    subject = MoviesListPresenter(moviesInteractor: mockMoviesInteractor!)
+                    subject = MoviesListPresenter(wireframe: mockWireframe, moviesInteractor: mockMoviesInteractor!)
                     
                     mockMoviesListVC = MockMoviesListViewController()
                     mockMoviesListVC!.presenter = subject
@@ -61,24 +63,10 @@ class MoviesListPresenterSpec: QuickSpec {
                 }
                 
                 it("should display movies on screen") {
-                    expect(mockMoviesListVC?.showMoviesCalled).to(beTrue())
+                    expect(mockMoviesListVC?.showMoviesCalled).toEventually(beTrue())
                 }
             }
             
-            context("When popularMovies not exists") {
-                beforeEach {
-                    mockMoviesInteractor = MockDI.mockContainer.resolve(MoviesInteractorProtocol.self) as? MockMoviesInteractor
-                    subject = MoviesListPresenter(moviesInteractor: mockMoviesInteractor!)
-                    
-                    mockMoviesListVC = MockMoviesListViewController()
-                    mockMoviesListVC!.presenter = subject
-                    mockMoviesListVC?.preloadViewForTest()
-                }
-                
-                it("should display alert") {
-                    expect(mockMoviesListVC?.fc_showNativeAlert).to(beTrue())
-                }
-            }
         }
     }
 }

@@ -31,7 +31,7 @@ class TestingUtils {
     
     static func returnGeneralErrorIfDataIsNil<P>(data: P?) -> Single<P> {
         if data == nil {
-            return Single.error(RepositoryError.general)
+            return Single.error(MovieXError.general)
         }
         return Single.just(data!)
     }
@@ -43,7 +43,7 @@ class TestingUtils {
         }
         
         if data == nil {
-            return Single.error(RepositoryError.general)
+            return Single.error(MovieXError.general)
         }
         return Single.just(data!)
     }

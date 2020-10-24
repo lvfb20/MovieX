@@ -16,18 +16,11 @@ class MovieDetailViewControllerSpec: QuickSpec {
         
         var subject: MovieDetailViewController!
         var mockPresenter: MockMovieDetailPresenter!
-        var mockWireframe: MockWireframe!
-        
+  
         //Global Setup/Teardown
         beforeSuite {
             //setup
             MockDI.mockDependencies()
-            mockPresenter = MockDI.mockContainer.resolve(MovieDetailPresenter.self) as? MockMovieDetailPresenter
-            mockPresenter.movieToShow = MoviesDataDummy.getMovies().first
-            mockWireframe = MockDI.mockContainer.resolve(Wireframe.self) as? MockWireframe
-            subject = MovieDetailViewController()
-            subject.presenter = mockPresenter
-            subject.wireframe = mockWireframe
         }
         
         afterSuite {
@@ -36,6 +29,10 @@ class MovieDetailViewControllerSpec: QuickSpec {
         
         describe("MovieDetailViewController") {
             beforeEach {
+                mockPresenter = MockDI.mockContainer.resolve(MovieDetailPresenter.self) as? MockMovieDetailPresenter
+                mockPresenter.movieToShow = MoviesDataDummy.getMovies().first
+                subject = MovieDetailViewController()
+                subject.presenter = mockPresenter
                 subject.preloadViewForTest()
             }
             

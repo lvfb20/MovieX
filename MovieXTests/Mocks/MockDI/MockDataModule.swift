@@ -27,14 +27,19 @@ class MockDataModule: DataModule {
             MockNetworkManager()
         }
         
+        defaultContainer.register(SingletonManager.self) { _ in
+            SingletonManager.sharedInstance
+        }
+        
         defaultContainer.register(MoviesRepository.self) { r in
             MockMoviesRepository(networkManager: r.resolve(NetworkManager.self)!,
-                               localManager: r.resolve(LocalManager.self)!)
+                                 localManager: r.resolve(LocalManager.self)!,
+                                 singletonManager: r.resolve(SingletonManager.self)!)
         }
     }
     
     override func resolveInteractors(_ defaultContainer: Container) {
-        defaultContainer.register(MoviesInteractorProtocol.self) { r in
+        defaultContainer.register(MoviesInteractor.self) { r in
             MockMoviesInteractor(moviesRepository: r.resolve(MoviesRepository.self)!)
         }
     }

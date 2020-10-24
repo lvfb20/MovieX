@@ -10,13 +10,18 @@ import Foundation
 @testable import MovieX
 
 class MockMoviesListViewController: MockBaseViewController<MoviesListPresenter> {
-    
     var showMoviesCalled = false
+    var showMovieDetailCalled = false
+    
 }
 
 extension MockMoviesListViewController: MoviesListView {
-    func showMovies(_ movies: [Movie]) {
+    func reloadMovies() {
         showMoviesCalled = true
+    }
+    
+    func showMovieDetail(movie: Movie) {
+        showMovieDetailCalled = true
     }
 }
 

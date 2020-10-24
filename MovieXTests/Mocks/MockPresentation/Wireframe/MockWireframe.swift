@@ -10,19 +10,25 @@ import UIKit
 @testable import MovieX
 
 class MockWireframe: Wireframe {
-    
+
     // MARK: Section - Testing vars
 
     var presentMoviesListCalled = false
     var presentMovieDetailCalled = false
     
     // MARK: Section - Functions
-
-    override func presentMoviesList() {
+    
+    func start() {
+        
+    }
+    
+    func moviesList() {
         presentMoviesListCalled = true
     }
     
-    override func presentMovieDetail(from vc: UIViewController, movie: Movie) {
+    func movieDetail(from vc: UIViewController, movie: Movie) -> Screen {
         presentMovieDetailCalled = true
+        return Screen(viewController: vc)
     }
+    
 }

@@ -17,7 +17,7 @@ class MoviesListPresenter: BasePresenter {
     
     private var moviesInteractor: MoviesInteractor
     private var movies: [Movie] = []
-    private var viewModels: [MovieCellViewModel] = []
+    var viewModels: [MovieCellViewModel] = []
 
     init(wireframe: Wireframe,
          moviesInteractor: MoviesInteractor) {
@@ -38,7 +38,7 @@ class MoviesListPresenter: BasePresenter {
         }).disposed(by: disposeBag)
     }
     
-    private func buildViewModels() {
+    func buildViewModels() {
         viewModels = movies.map({MovieCellViewModel(title: $0.title, posterImage: $0.getThumbnail())})
         view?.reloadMovies()
     }
@@ -51,8 +51,12 @@ class MoviesListPresenter: BasePresenter {
         return viewModels[index]
     }
     
-    func getMovie(at index: Int) -> Movie {
+    private func getMovie(at index: Int) -> Movie {
         let movie = movies[index]
         return movie
+    }
+    
+    func didSelectRow(at index: Int) {
+        view?.showMovieDetail(movie: getMovie(at: index))
     }
 }

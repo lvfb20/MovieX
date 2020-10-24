@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 @testable import MovieX
 
-class MockMoviesInteractor: MockBaseIteractor, MoviesInteractorProtocol {
+class MockMoviesInteractor: MockBaseIteractor, MoviesInteractor {
    
     var getPopularMoviesCalled = false
     

@@ -23,20 +23,22 @@ class MockViewModule: ViewModule {
             MockWireframe()
         }
         
-        defaultContainer.register(BasePresenter.self) { _ in
-            BasePresenter()
+        defaultContainer.register(BasePresenter.self) { r in
+            BasePresenter(wireframe: r.resolve(Wireframe.self)!)
         }
         
         defaultContainer.register(SplashPresenter.self) { r in
-            MockSplashPresenter()
+            MockSplashPresenter(wireframe: r.resolve(Wireframe.self)!)
         }
         
         defaultContainer.register(MoviesListPresenter.self) { r in
-            MockMoviesListPresenter(moviesInteractor: (r.resolve(MoviesInteractorProtocol.self)!))
+            MockMoviesListPresenter(wireframe: r.resolve(Wireframe.self)!,
+                                    moviesInteractor: (r.resolve(MoviesInteractor.self)!))
         }
         
         defaultContainer.register(MovieDetailPresenter.self) { r in
-            MockMovieDetailPresenter(movie: Movie())
+            MockMovieDetailPresenter(wireframe: r.resolve(Wireframe.self)!,
+                                     movie: Movie())
         }
     }
     

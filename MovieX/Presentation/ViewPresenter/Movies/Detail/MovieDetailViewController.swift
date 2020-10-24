@@ -36,6 +36,9 @@ class MovieDetailViewController: BaseViewController<MovieDetailPresenter> {
     override func setupView() {
         super.setupView()
        
+        navigationController?.navigationBar.prefersLargeTitles = false
+        hideNavigationBar()
+        
         movieTitleLabel.font = Style.Font.with(name: .gillSans, size: 20, weight: .bold)
         releaseDateLabel.font = Style.Font.with(name: .gillSans, size: 14, weight: .light)
         movieOverviewLabel.font = Style.Font.with(name: .gillSans, size: 17, weight: .regular)

@@ -24,6 +24,7 @@ class NetworkManager {
     init (environment: NetworkEnvironment) {
         
         NetworkManager.selectedEnvironment = environment
+        
         provider = MoyaProvider<MultiTarget>(stubClosure: environment == .mock ? MoyaProvider.immediatelyStub : MoyaProvider.neverStub,
                                              callbackQueue: DispatchQueue.main,
                                              plugins: [RestClientHelper.getLoggerPlugin()])

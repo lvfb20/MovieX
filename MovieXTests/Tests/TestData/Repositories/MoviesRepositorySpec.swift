@@ -19,24 +19,27 @@ class MoviesRepositorySpec: QuickSpec {
     var mockLocalMananger: LocalManager!
     var mockNetworkManager: MockNetworkManager!
     var moviesRepository: MoviesRepository!
+    var mockSingletonManager: SingletonManager!
     
     override func spec() {
         
         beforeSuite {
             MockDI.mockDependencies()
             self.disposeBag = DisposeBag()
-            
-            self.mockLocalMananger = MockDI.mockContainer.resolve(LocalManager.self)!
-            self.mockNetworkManager = MockDI.mockContainer.resolve(NetworkManager.self) as? MockNetworkManager
-            self.moviesRepository = MoviesRepositoryImpl(networkManager: self.mockNetworkManager,
-                                                         localManager: self.mockLocalMananger)
         }
         
         afterSuite {
-            
         }
         
         describe("MoviesRepository") {
+            beforeEach {
+                self.mockSingletonManager = MockDI.mockContainer.resolve(SingletonManager.self)!
+                self.mockLocalMananger = MockDI.mockContainer.resolve(LocalManager.self)!
+                self.mockNetworkManager = MockDI.mockContainer.resolve(NetworkManager.self) as? MockNetworkManager
+                self.moviesRepository = MoviesRepositoryImpl(networkManager: self.mockNetworkManager,
+                                                             localManager: self.mockLocalMananger,
+                                                             singletonManager: self.mockSingletonManager)
+            }
             context("When popularMovies success") {
                 it("should return movies") {
                     let data = TestingUtils.parseJsonFileToData(filename: "popularMoviesSuccess")
@@ -72,19 +75,16 @@ class MoviesRepositorySpec: QuickSpec {
                         .subscribe(onSuccess: { (movies) in
                             expect(movies).to(beNil())
                         }, onError: {(error) in
-                            //Verificar que el error no sea nulo
                             expect(error).toNot(beNil())
                             
                             if let moyaError = error as? MoyaError,
                                 let code = moyaError.response?.statusCode {
-                                //Verificar que el codigo del error coincida
                                 expect(code).to(equal(statusCode))
                                 
                                 if let data = moyaError.response?.data {
                                     do {
                                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                                             if let code = json["status_code"] as? Int {
-                                                //Verificar que el codigo del error coincida
                                                 expect(code).to(equal(statusCodeApi))
                                             }
                                         }
@@ -95,8 +95,6 @@ class MoviesRepositorySpec: QuickSpec {
                                     fail()
                                 }
                                 
-                            } else {
-                                fail()
                             }
                             
                             expectation.fulfill()

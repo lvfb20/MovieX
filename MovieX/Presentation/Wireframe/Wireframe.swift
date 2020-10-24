@@ -36,6 +36,6 @@ final class WireframeImpl: Wireframe {
         guard let vc = SwinjectStoryboard.defaultContainer.resolve(MovieDetailViewController.self, argument: movie ) else {
             fatalError("Couldn't instantiate MovieDetailViewController")
         }
-        return Screen(viewController: vc, isModal: false, animated: true)
+        return Screen(viewController: vc, isModal: true, animated: true)
     }
 }
